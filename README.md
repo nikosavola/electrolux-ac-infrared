@@ -126,7 +126,7 @@ protocol is ever added there.
 
 ```bash
 uv venv --python 3.14
-uv pip install -r requirements-test.txt
+uv pip install --group test
 .venv/bin/python -m pytest
 .venv/bin/ruff check . && .venv/bin/ruff format --check .
 .venv/bin/pyrefly check

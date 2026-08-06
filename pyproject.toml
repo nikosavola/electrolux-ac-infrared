@@ -4,6 +4,17 @@ version = "0.1.0"
 description = "Home Assistant integration for Electrolux air conditioners controlled over infrared"
 requires-python = ">=3.14"
 
+[dependency-groups]
+test = [
+  "pyrefly==1.2.0",
+  "pytest-homeassistant-custom-component==0.13.353",
+  "ruff==0.16.1",
+]
+
+[tool.uv]
+# pytest-homeassistant-custom-component pins a homeassistant beta release.
+prerelease = "allow"
+
 # Mirrors the Home Assistant core lint setup, trimmed to what a custom integration needs,
 # plus extra strictness pulled in from https://github.com/gdsfactory/qpdk's ruff config.
 [tool.ruff]

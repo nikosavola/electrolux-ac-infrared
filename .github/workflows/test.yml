@@ -22,7 +22,7 @@ jobs:
           python-version: "3.14"
 
       - name: Install dependencies
-        run: uv pip install -r requirements-test.txt
+        run: uv pip install --group test
 
       - name: Ruff check
         run: uv run --no-sync ruff check .
