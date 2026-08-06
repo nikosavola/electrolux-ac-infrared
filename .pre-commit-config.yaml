@@ -57,8 +57,7 @@ repos:
         # Without homeassistant installed, base classes resolve to Any and every
         # `@override` in the codebase falsely reports a missing parent attribute.
         additional_dependencies:
-          - pytest-homeassistant-custom-component==0.13.353
-          - homeassistant==2026.8.0b5
+          - pytest-homeassistant-custom-component==0.13.354
           - infrared-protocols>=8.2.1
 
   - repo: https://github.com/python-jsonschema/check-jsonschema
