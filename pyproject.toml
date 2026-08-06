@@ -4,21 +4,26 @@ version = "0.1.0"
 description = "Home Assistant integration for Electrolux air conditioners controlled over infrared"
 requires-python = ">=3.14"
 
-# Mirrors the Home Assistant core lint setup, trimmed to what a custom integration needs.
+# Mirrors the Home Assistant core lint setup, trimmed to what a custom integration needs,
+# plus extra strictness pulled in from https://github.com/gdsfactory/qpdk's ruff config.
 [tool.ruff]
 required-version = ">=0.16.0"
 target-version = "py314"
+preview = true
 
 [tool.ruff.lint]
 select = [
-  "A001",   # Variable {name} is shadowing a Python builtin
+  "A",      # flake8-builtins
+  "ARG",    # flake8-unused-arguments
   "ASYNC",  # flake8-async
   "B",      # flake8-bugbear
   "BLE",    # flake8-blind-except
   "C",      # complexity
   "COM818", # Trailing comma on bare tuple prohibited
   "D",      # docstrings
+  "DOC",    # pydoclint
   "E",      # pycodestyle
+  "ERA",    # eradicate
   "F",      # pyflakes/autoflake
   "FLY",    # flynt
   "FURB",   # refurb
@@ -27,21 +32,23 @@ select = [
   "INP",    # flake8-no-pep420
   "ISC",    # flake8-implicit-str-concat
   "LOG",    # flake8-logging
-  "N804",   # First argument of a class method should be named cls
-  "N805",   # First argument of a method should be named self
-  "N806",   # Variable {name} in function should be snake_case
+  "N",      # pep8-naming
   "PERF",   # Perflint
   "PGH",    # pygrep-hooks
   "PIE",    # flake8-pie
   "PL",     # pylint
   "PT",     # flake8-pytest-style
+  "PTH",    # flake8-use-pathlib
   "PYI",    # flake8-pyi
+  "Q",      # flake8-quotes
   "RET",    # flake8-return
   "RSE",    # flake8-raise
   "RUF",    # Ruff-specific rules
+  "S",      # flake8-bandit
   "SIM",    # flake8-simplify
   "SLF",    # flake8-self
   "SLOT",   # flake8-slots
+  "T10",    # flake8-debugger
   "T20",    # flake8-print
   "TC",     # flake8-type-checking
   "TID",    # Tidy imports
@@ -65,6 +72,14 @@ ignore = [
   "PT011",   # pytest.raises({exception}) is too broad
   "PT018",   # Assertion should be broken down into multiple parts
   "RUF012",  # Mutable class attributes should be annotated with typing.ClassVar
+  # HA platform setup functions and their test doubles must match an async callback
+  # signature even when nothing inside them awaits.
+  "RUF029",  # Function is declared `async`, but doesn't use async features
+  # A custom integration's __init__.py is required to define async_setup_entry and
+  # async_unload_entry directly, so it can never be re-export-only.
+  "RUF067",  # __init__ module should only contain docstrings and re-exports
+  # Keeps rule codes, which pair with the explanatory comments already in this file.
+  "RUF201",  # Rule code used instead of name in selectors
   # Moving imports into type-checking blocks can mess with pytest.patch()
   "TC001",   # Move application import into a type-checking block
   "TC002",   # Move third-party import into a type-checking block
@@ -76,7 +91,17 @@ ignore = [
 ]
 
 [tool.ruff.lint.per-file-ignores]
-"tests/*" = ["SLF001"] # Private member accessed
+"tests/*" = [
+  "SLF001",  # Private member accessed
+  "S101",    # Use of `assert` detected
+  "PLC2701", # Private name import, needed to test module-private helpers directly
+  # HA state attributes are exact float literals the code sets, not derived through
+  # float arithmetic, so equality comparison against them is not unreliable here.
+  "RUF069",  # Unreliable floating point equality comparison
+]
+
+[tool.ruff.lint.pydoclint]
+ignore-one-line-docstrings = true
 
 [tool.ruff.lint.flake8-pytest-style]
 fixture-parentheses = false

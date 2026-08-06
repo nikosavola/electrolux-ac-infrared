@@ -82,6 +82,10 @@ class ElectroluxInfraredConfigFlow(ConfigFlow, domain=DOMAIN):
         """Abort if another entry already follows the selected receiver.
 
         Two entries sharing a receiver would both react to the same remote press.
+
+        Raises:
+            AbortFlow: If another entry already uses the selected receiver.
+
         """
         receiver_entity_id = user_input.get(CONF_INFRARED_RECEIVER_ENTITY_ID)
         if receiver_entity_id is None:

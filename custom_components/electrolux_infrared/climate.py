@@ -74,20 +74,18 @@ _LIB_FAN_TO_HA: dict[ElectroluxAcFanSpeed, str] = {
 
 
 async def async_setup_entry(
-    hass: HomeAssistant,
+    _hass: HomeAssistant,
     entry: ConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
     """Set up the Electrolux AC climate entity from a config entry."""
     emitter_entity_id = entry.data[CONF_INFRARED_EMITTER_ENTITY_ID]
     if receiver_entity_id := entry.data.get(CONF_INFRARED_RECEIVER_ENTITY_ID):
-        async_add_entities(
-            [
-                ElectroluxAcClimateWithReceiver(
-                    entry, emitter_entity_id, receiver_entity_id
-                )
-            ]
-        )
+        async_add_entities([
+            ElectroluxAcClimateWithReceiver(
+                entry, emitter_entity_id, receiver_entity_id
+            )
+        ])
     else:
         async_add_entities([ElectroluxAcClimate(entry, emitter_entity_id)])
 
@@ -141,10 +139,10 @@ class ElectroluxAcClimate(InfraredEmitterConsumerEntity, ClimateEntity, RestoreE
         await super().async_added_to_hass()
 
         last_state = await self.async_get_last_state()
-        if last_state is None or last_state.state in (
+        if last_state is None or last_state.state in {
             STATE_UNAVAILABLE,
             STATE_UNKNOWN,
-        ):
+        }:
             return
 
         if last_state.state in self._attr_hvac_modes:
@@ -153,10 +151,10 @@ class ElectroluxAcClimate(InfraredEmitterConsumerEntity, ClimateEntity, RestoreE
                 self._last_on_hvac_mode = self._attr_hvac_mode
         if (fan_mode := last_state.attributes.get(ATTR_FAN_MODE)) in _HA_FAN_TO_LIB:
             self._attr_fan_mode = fan_mode
-        if (swing_mode := last_state.attributes.get(ATTR_SWING_MODE)) in (
+        if (swing_mode := last_state.attributes.get(ATTR_SWING_MODE)) in {
             SWING_OFF,
             SWING_VERTICAL,
-        ):
+        }:
             self._attr_swing_mode = swing_mode
         if (temperature := last_state.attributes.get(ATTR_TEMPERATURE)) is not None:
             # The restored attribute is in the unit the frontend displays, which is not
@@ -300,6 +298,10 @@ def _coerce_fan_mode(hvac_mode: HVACMode, fan_mode: str) -> str:
     """Return the fan mode the unit actually runs at in the given HVAC mode.
 
     Dry mode always runs the fan at low, and fan-only mode has no auto speed.
+
+    Returns:
+        The fan mode that will actually be sent, given the requested one.
+
     """
     if hvac_mode is HVACMode.DRY:
         return FAN_LOW

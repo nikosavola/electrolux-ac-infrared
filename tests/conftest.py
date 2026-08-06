@@ -89,8 +89,8 @@ async def mock_infrared(hass: HomeAssistant) -> MockInfrared:
     receiver = MockReceiver()
 
     async def async_setup_entry_platform(
-        hass: HomeAssistant,
-        entry: ConfigEntry,
+        _hass: HomeAssistant,
+        _entry: ConfigEntry,
         async_add_entities: AddConfigEntryEntitiesCallback,
     ) -> None:
         async_add_entities([emitter, receiver])

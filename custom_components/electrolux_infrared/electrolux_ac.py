@@ -209,8 +209,10 @@ class ElectroluxAcCommand(Command):
         timings = [_HEADER_MARK, -_HEADER_SPACE]
         for byte in self.get_frame():
             for shift in range(7, -1, -1):
-                timings.append(_BIT_MARK)
-                timings.append(-(_ONE_SPACE if byte >> shift & 1 else _ZERO_SPACE))
+                timings.extend((
+                    _BIT_MARK,
+                    -(_ONE_SPACE if byte >> shift & 1 else _ZERO_SPACE),
+                ))
         timings += [_BIT_MARK, -_FOOTER_SPACE]
         return timings
 
@@ -218,14 +220,17 @@ class ElectroluxAcCommand(Command):
     def from_raw_timings(cls, timings: list[int]) -> Self | None:
         """Decode raw IR timings into an ElectroluxAcCommand.
 
-        Returns None if the timings do not form a valid Electrolux AC frame.
+        Returns:
+            The decoded command, or None if the timings do not form a valid
+            Electrolux AC frame.
+
         """
         frame = _decode_frame(timings)
         if frame is None:
             return None
 
         swing_bits = frame[_IDX_SWING_TEMP] >> _SWING_SHIFT
-        if swing_bits not in (_SWING_VERTICAL, _SWING_OFF):
+        if swing_bits not in {_SWING_VERTICAL, _SWING_OFF}:
             return None
 
         temperature = (
@@ -235,7 +240,7 @@ class ElectroluxAcCommand(Command):
         if not MIN_TEMP <= temperature <= MAX_TEMP:
             return None
 
-        if frame[_IDX_POWER] not in (0, _POWER_ON):
+        if frame[_IDX_POWER] not in {0, _POWER_ON}:
             return None
 
         try:
