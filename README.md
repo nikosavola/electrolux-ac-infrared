@@ -131,22 +131,9 @@ indefinitely, so a 0.y bump can carry breaking changes. See the
 [releases](https://github.com/nikosavola/electrolux-ac-infrared/releases) for what
 changed between versions.
 
-## Development
+## Contributing
 
-```bash
-uv venv --python 3.14
-uv pip install --group test
-.venv/bin/python -m pytest
-.venv/bin/ruff check . && .venv/bin/ruff format --check .
-.venv/bin/pyrefly check
-```
-
-Or run everything through the [pre-commit](https://pre-commit.com) hooks with
-[`prek`](https://github.com/j178/prek):
-
-```bash
-uvx prek run --all-files
-```
+See [CONTRIBUTING.md](CONTRIBUTING.md) for development setup and guidelines.
 
 ## Credits
 
