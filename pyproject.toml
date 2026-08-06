@@ -11,9 +11,23 @@ test = [
   "ruff==0.16.1",
 ]
 
-[tool.uv]
-# pytest-homeassistant-custom-component pins a homeassistant beta release.
-prerelease = "allow"
+[tool.codespell]
+# "hass" is the near-universal name for the HomeAssistant instance argument, not a typo.
+ignore-words-list = "hass"
+
+[tool.pyrefly]
+python-version = "3.14"
+project-includes = ["custom_components/**/*.py", "tests/**/*.py"]
+
+[tool.pyrefly.errors]
+# Every HA entity platform narrows inherited `_attr_*` class attributes (declared
+# `int | None` etc. on the base Entity) to a specific enum/literal type. That is the
+# standard pattern across HA core and every custom integration, not a real bug here.
+bad-override-mutable-attribute = "ignore"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
 
 # Mirrors the Home Assistant core lint setup, trimmed to what a custom integration needs,
 # plus extra strictness pulled in from https://github.com/gdsfactory/qpdk's ruff config.
@@ -24,64 +38,64 @@ preview = true
 
 [tool.ruff.lint]
 select = [
-  "A",      # flake8-builtins
-  "ARG",    # flake8-unused-arguments
+  "A",  # flake8-builtins
+  "ARG",  # flake8-unused-arguments
   "ASYNC",  # flake8-async
-  "B",      # flake8-bugbear
-  "BLE",    # flake8-blind-except
-  "C",      # complexity
-  "COM818", # Trailing comma on bare tuple prohibited
-  "D",      # docstrings
-  "DOC",    # pydoclint
-  "E",      # pycodestyle
-  "ERA",    # eradicate
-  "F",      # pyflakes/autoflake
-  "FLY",    # flynt
-  "FURB",   # refurb
-  "G",      # flake8-logging-format
-  "I",      # isort
-  "INP",    # flake8-no-pep420
-  "ISC",    # flake8-implicit-str-concat
-  "LOG",    # flake8-logging
-  "N",      # pep8-naming
-  "PERF",   # Perflint
-  "PGH",    # pygrep-hooks
-  "PIE",    # flake8-pie
-  "PL",     # pylint
-  "PT",     # flake8-pytest-style
-  "PTH",    # flake8-use-pathlib
-  "PYI",    # flake8-pyi
-  "Q",      # flake8-quotes
-  "RET",    # flake8-return
-  "RSE",    # flake8-raise
-  "RUF",    # Ruff-specific rules
-  "S",      # flake8-bandit
-  "SIM",    # flake8-simplify
-  "SLF",    # flake8-self
-  "SLOT",   # flake8-slots
-  "T10",    # flake8-debugger
-  "T20",    # flake8-print
-  "TC",     # flake8-type-checking
-  "TID",    # Tidy imports
-  "TRY",    # tryceratops
-  "UP",     # pyupgrade
-  "W",      # pycodestyle
+  "B",  # flake8-bugbear
+  "BLE",  # flake8-blind-except
+  "C",  # complexity
+  "COM818",  # Trailing comma on bare tuple prohibited
+  "D",  # docstrings
+  "DOC",  # pydoclint
+  "E",  # pycodestyle
+  "ERA",  # eradicate
+  "F",  # pyflakes/autoflake
+  "FLY",  # flynt
+  "FURB",  # refurb
+  "G",  # flake8-logging-format
+  "I",  # isort
+  "INP",  # flake8-no-pep420
+  "ISC",  # flake8-implicit-str-concat
+  "LOG",  # flake8-logging
+  "N",  # pep8-naming
+  "PERF",  # Perflint
+  "PGH",  # pygrep-hooks
+  "PIE",  # flake8-pie
+  "PL",  # pylint
+  "PT",  # flake8-pytest-style
+  "PTH",  # flake8-use-pathlib
+  "PYI",  # flake8-pyi
+  "Q",  # flake8-quotes
+  "RET",  # flake8-return
+  "RSE",  # flake8-raise
+  "RUF",  # Ruff-specific rules
+  "S",  # flake8-bandit
+  "SIM",  # flake8-simplify
+  "SLF",  # flake8-self
+  "SLOT",  # flake8-slots
+  "T10",  # flake8-debugger
+  "T20",  # flake8-print
+  "TC",  # flake8-type-checking
+  "TID",  # Tidy imports
+  "TRY",  # tryceratops
+  "UP",  # pyupgrade
+  "W",  # pycodestyle
 ]
 
 ignore = [
-  "D202",    # No blank lines allowed after function docstring
-  "D203",    # 1 blank line required before class docstring
-  "D213",    # Multi-line docstring summary should start at the second line
-  "D417",    # Missing argument descriptions in docstring
-  "E501",    # Line too long
-  "PLR0911", # Too many return statements
-  "PLR0912", # Too many branches
-  "PLR0913", # Too many arguments in function definition
-  "PLR0915", # Too many statements
-  "PLR0917", # Too many positional arguments
-  "PLR2004", # Magic value used in comparison
-  "PT011",   # pytest.raises({exception}) is too broad
-  "PT018",   # Assertion should be broken down into multiple parts
+  "D202",  # No blank lines allowed after function docstring
+  "D203",  # 1 blank line required before class docstring
+  "D213",  # Multi-line docstring summary should start at the second line
+  "D417",  # Missing argument descriptions in docstring
+  "E501",  # Line too long
+  "PLR0911",  # Too many return statements
+  "PLR0912",  # Too many branches
+  "PLR0913",  # Too many arguments in function definition
+  "PLR0915",  # Too many statements
+  "PLR0917",  # Too many positional arguments
+  "PLR2004",  # Magic value used in comparison
+  "PT011",  # pytest.raises({exception}) is too broad
+  "PT018",  # Assertion should be broken down into multiple parts
   "RUF012",  # Mutable class attributes should be annotated with typing.ClassVar
   # HA platform setup functions and their test doubles must match an async callback
   # signature even when nothing inside them awaits.
@@ -92,9 +106,9 @@ ignore = [
   # Keeps rule codes, which pair with the explanatory comments already in this file.
   "RUF201",  # Rule code used instead of name in selectors
   # Moving imports into type-checking blocks can mess with pytest.patch()
-  "TC001",   # Move application import into a type-checking block
-  "TC002",   # Move third-party import into a type-checking block
-  "TC003",   # Move standard library import into a type-checking block
+  "TC001",  # Move application import into a type-checking block
+  "TC002",  # Move third-party import into a type-checking block
+  "TC003",  # Move standard library import into a type-checking block
   "TRY003",  # Avoid specifying long messages outside the exception class
   # May conflict with the formatter
   "COM812",
@@ -104,8 +118,8 @@ ignore = [
 [tool.ruff.lint.per-file-ignores]
 "tests/*" = [
   "SLF001",  # Private member accessed
-  "S101",    # Use of `assert` detected
-  "PLC2701", # Private name import, needed to test module-private helpers directly
+  "S101",  # Use of `assert` detected
+  "PLC2701",  # Private name import, needed to test module-private helpers directly
   # HA state attributes are exact float literals the code sets, not derived through
   # float arithmetic, so equality comparison against them is not unreliable here.
   "RUF069",  # Unreliable floating point equality comparison
@@ -126,20 +140,6 @@ force-sort-within-sections = true
 known-first-party = ["custom_components", "tests"]
 split-on-trailing-comma = false
 
-[tool.pytest.ini_options]
-asyncio_mode = "auto"
-testpaths = ["tests"]
-
-[tool.pyrefly]
-python-version = "3.14"
-project-includes = ["custom_components/**/*.py", "tests/**/*.py"]
-
-[tool.pyrefly.errors]
-# Every HA entity platform narrows inherited `_attr_*` class attributes (declared
-# `int | None` etc. on the base Entity) to a specific enum/literal type. That is the
-# standard pattern across HA core and every custom integration, not a real bug here.
-bad-override-mutable-attribute = "ignore"
-
-[tool.codespell]
-# "hass" is the near-universal name for the HomeAssistant instance argument, not a typo.
-ignore-words-list = "hass"
+[tool.uv]
+# pytest-homeassistant-custom-component pins a homeassistant beta release.
+prerelease = "allow"

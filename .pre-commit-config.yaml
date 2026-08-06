@@ -39,6 +39,14 @@ repos:
         priority: 20
         args: [--config=pyproject.toml]
 
+  - repo: https://github.com/tombi-toml/tombi-pre-commit
+    rev: v1.2.6
+    hooks:
+      - id: tombi-format
+        priority: 10
+      - id: tombi-lint
+        priority: 20
+
   - repo: https://github.com/facebook/pyrefly-pre-commit
     rev: "1.2.0"
     hooks:
