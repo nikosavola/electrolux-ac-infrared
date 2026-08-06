@@ -27,4 +27,8 @@ jobs:
         with:
           persist-credentials: false
       - uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9  # v9.0.0
+        with:
+          # prek's isolated hook venvs (e.g. pyrefly-check) don't read our
+          # pyproject.toml's requires-python, so pin uv's default interpreter here.
+          python-version: "3.14"
       - uses: j178/prek-action@bdca6f102f98e2b4c7029491a53dfd366469e33d  # v2.0.4
