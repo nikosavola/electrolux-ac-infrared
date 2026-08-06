@@ -1,0 +1,36 @@
+{
+  "config": {
+    "abort": {
+      "already_configured": "Den här infraröda sändaren används redan av en Electrolux luftkonditionering.",
+      "no_emitters": "Inga entiteter för infraröda sändare hittades. Konfigurera först en infraröd adapter, till exempel ESPHome eller Broadlink.",
+      "receiver_in_use": "Den här infraröda mottagaren följs redan av en annan Electrolux luftkonditionering.",
+      "reconfigure_successful": "Omkonfigureringen lyckades."
+    },
+    "step": {
+      "reconfigure": {
+        "data": {
+          "infrared_emitter_entity_id": "Infraröd sändare",
+          "infrared_receiver_entity_id": "Infraröd mottagare"
+        },
+        "data_description": {
+          "infrared_emitter_entity_id": "Den infraröda sändare som används för att skicka kommandon till luftkonditioneringen.",
+          "infrared_receiver_entity_id": "Valfritt. En infraröd mottagare som fångar upp den fysiska fjärrkontrollen, så att Home Assistant håller sig uppdaterad när fjärrkontrollen används."
+        },
+        "description": "Välj den infraröda sändare som är riktad mot din Electrolux luftkonditionering.",
+        "title": "Konfigurera om Electrolux luftkonditionering"
+      },
+      "user": {
+        "data": {
+          "infrared_emitter_entity_id": "Infraröd sändare",
+          "infrared_receiver_entity_id": "Infraröd mottagare"
+        },
+        "data_description": {
+          "infrared_emitter_entity_id": "Den infraröda sändare som används för att skicka kommandon till luftkonditioneringen.",
+          "infrared_receiver_entity_id": "Valfritt. En infraröd mottagare som fångar upp den fysiska fjärrkontrollen, så att Home Assistant håller sig uppdaterad när fjärrkontrollen används."
+        },
+        "description": "Välj den infraröda sändare som är riktad mot din Electrolux luftkonditionering.",
+        "title": "Konfigurera Electrolux luftkonditionering"
+      }
+    }
+  }
+}

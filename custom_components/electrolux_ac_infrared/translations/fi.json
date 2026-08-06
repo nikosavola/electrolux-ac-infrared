@@ -1,0 +1,36 @@
+{
+  "config": {
+    "abort": {
+      "already_configured": "Tämä infrapunalähetin on jo Electrolux-ilmastointilaitteen käytössä.",
+      "no_emitters": "Infrapunalähetin-entiteettejä ei löytynyt. Määritä ensin infrapunasovitin, kuten ESPHome tai Broadlink.",
+      "receiver_in_use": "Tätä infrapunavastaanotinta seuraa jo toinen Electrolux-ilmastointilaite.",
+      "reconfigure_successful": "Uudelleenmääritys onnistui."
+    },
+    "step": {
+      "reconfigure": {
+        "data": {
+          "infrared_emitter_entity_id": "Infrapunalähetin",
+          "infrared_receiver_entity_id": "Infrapunavastaanotin"
+        },
+        "data_description": {
+          "infrared_emitter_entity_id": "Infrapunalähetin, jota käytetään komentojen lähettämiseen ilmastointilaitteelle.",
+          "infrared_receiver_entity_id": "Valinnainen. Infrapunavastaanotin, joka havaitsee fyysisen kaukosäätimen käytön, jolloin Home Assistant pysyy ajan tasalla kaukosäätimen käytöstä."
+        },
+        "description": "Valitse infrapunalähetin, joka on suunnattu Electrolux-ilmastointilaitteeseesi.",
+        "title": "Määritä Electrolux-ilmastointilaite uudelleen"
+      },
+      "user": {
+        "data": {
+          "infrared_emitter_entity_id": "Infrapunalähetin",
+          "infrared_receiver_entity_id": "Infrapunavastaanotin"
+        },
+        "data_description": {
+          "infrared_emitter_entity_id": "Infrapunalähetin, jota käytetään komentojen lähettämiseen ilmastointilaitteelle.",
+          "infrared_receiver_entity_id": "Valinnainen. Infrapunavastaanotin, joka havaitsee fyysisen kaukosäätimen käytön, jolloin Home Assistant pysyy ajan tasalla kaukosäätimen käytöstä."
+        },
+        "description": "Valitse infrapunalähetin, joka on suunnattu Electrolux-ilmastointilaitteeseesi.",
+        "title": "Määritä Electrolux-ilmastointilaite"
+      }
+    }
+  }
+}
