@@ -14,7 +14,7 @@ from homeassistant.components.infrared import (
 from homeassistant.config_entries import ConfigEntry, ConfigFlow
 from homeassistant.const import Platform
 from homeassistant.core import HomeAssistant
-from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
+from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.setup import async_setup_component
 from infrared_protocols.commands import Command as InfraredCommand
 import pytest
@@ -91,7 +91,7 @@ async def mock_infrared(hass: HomeAssistant) -> MockInfrared:
     async def async_setup_entry_platform(
         _hass: HomeAssistant,
         _entry: ConfigEntry,
-        async_add_entities: AddConfigEntryEntitiesCallback,
+        async_add_entities: AddEntitiesCallback,
     ) -> None:
         async_add_entities([emitter, receiver])
 

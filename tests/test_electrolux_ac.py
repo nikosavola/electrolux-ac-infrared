@@ -300,7 +300,7 @@ def test_decode_rejects_bad_frame(byte_index: int, value: int) -> None:
     # Without this the checksum check would reject the frame before the field is read.
     frame[-1] = _checksum(bytes(frame))
 
-    assert ElectroluxAcCommand.from_raw_timings(_timings_of(frame)) is None
+    assert ElectroluxAcCommand.from_raw_timings(_timings_of(bytes(frame))) is None
 
 
 def test_decode_rejects_bad_checksum() -> None:
@@ -308,4 +308,4 @@ def test_decode_rejects_bad_checksum() -> None:
     frame = bytearray(_reference_command().get_frame())
     frame[-1] ^= 0xFF
 
-    assert ElectroluxAcCommand.from_raw_timings(_timings_of(frame)) is None
+    assert ElectroluxAcCommand.from_raw_timings(_timings_of(bytes(frame))) is None

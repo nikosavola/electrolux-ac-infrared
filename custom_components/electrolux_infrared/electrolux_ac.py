@@ -200,7 +200,7 @@ class ElectroluxAcCommand(Command):
         frame[_IDX_FAN] = self.fan
         frame[_IDX_MODE] = self.mode
         frame[_IDX_POWER] = _POWER_ON if self.power else 0
-        frame[-1] = _checksum(frame)
+        frame[-1] = _checksum(bytes(frame))
         return bytes(frame)
 
     @override

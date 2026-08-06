@@ -129,6 +129,7 @@ uv venv --python 3.14
 uv pip install -r requirements-test.txt
 .venv/bin/python -m pytest
 .venv/bin/ruff check . && .venv/bin/ruff format --check .
+.venv/bin/pyrefly check
 ```
 
 ## Credits

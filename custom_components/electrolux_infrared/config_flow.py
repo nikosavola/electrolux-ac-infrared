@@ -45,7 +45,8 @@ class ElectroluxInfraredConfigFlow(ConfigFlow, domain=DOMAIN):
             step_id="user", data_schema=self._schema(emitter_entity_ids)
         )
 
-    @override
+    # Not a real override: HA discovers this step via hasattr(), it isn't a method
+    # on ConfigFlow.
     async def async_step_reconfigure(
         self, user_input: dict[str, Any] | None = None
     ) -> ConfigFlowResult:

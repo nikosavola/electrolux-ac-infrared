@@ -119,6 +119,12 @@ split-on-trailing-comma = false
 asyncio_mode = "auto"
 testpaths = ["tests"]
 
-[tool.mypy]
-python_version = "3.14"
-strict = true
+[tool.pyrefly]
+python-version = "3.14"
+project-includes = ["custom_components/**/*.py", "tests/**/*.py"]
+
+[tool.pyrefly.errors]
+# Every HA entity platform narrows inherited `_attr_*` class attributes (declared
+# `int | None` etc. on the base Entity) to a specific enum/literal type. That is the
+# standard pattern across HA core and every custom integration, not a real bug here.
+bad-override-mutable-attribute = "ignore"
