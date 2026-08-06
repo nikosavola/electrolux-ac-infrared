@@ -1,5 +1,7 @@
 ![Electrolux AC Infrared](custom_components/electrolux_ac_infrared/brand/logo.svg)
 
+[![codecov](https://codecov.io/gh/nikosavola/electrolux-ac-infrared/graph/badge.svg)](https://codecov.io/gh/nikosavola/electrolux-ac-infrared)
+
 ______________________________________________________________________
 
 Home Assistant custom integration for Electrolux air conditioners that are controlled
