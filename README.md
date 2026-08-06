@@ -193,6 +193,12 @@ issue? See [SECURITY.md](SECURITY.md) instead of opening a public issue.
   API, instead of the `infrared` building block this integration uses. Worth a look if
   your air conditioner isn't Electrolux, or you'd rather not set up a separate adapter
   integration.
+- [`localtuya_rc`](https://github.com/ClusterM/localtuya_rc): a local, non-cloud Tuya
+  remote-control integration whose `infrared` adapter entity was used to verify this
+  integration on real hardware.
+- [`ha-electrolux`](https://github.com/TTLucian/ha-electrolux): talks to Electrolux's own
+  cloud API instead of infrared. Use this one if your AC connects to the Electrolux app
+  directly, rather than shipping with just a remote.
 
 ## Credits
 
