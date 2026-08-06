@@ -6,6 +6,13 @@
 # 30: heavier type checkers.
 # 40: global structure checks (end-of-file-fixer).
 # 50: global whitespace cleanup.
+#
+# pyrefly-check's additional_dependencies (pytest-homeassistant-custom-component)
+# require Python 3.14; without this, hooks fall back to whatever Python the runner
+# happens to discover first, which on GitHub's ubuntu-latest is still 3.12.
+default_language_version:
+  python: "3.14"
+
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v6.0.0
