@@ -22,8 +22,10 @@ hardware itself.
 
 ### HACS
 
-1. Add this repository to HACS as a custom repository of type *Integration*.
-1. Install **Electrolux AC Infrared**.
+[![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=nikosavola&repository=electrolux-ac-infrared&category=integration)
+
+1. Add this repository to HACS as a custom repository of type *Integration* (the
+   badge above does this for you), then download **Electrolux AC Infrared** from HACS.
 1. Restart Home Assistant.
 
 ### Manual
