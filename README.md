@@ -124,6 +124,13 @@ implements the `infrared_protocols.commands.Command` interface, so it could move
 [infrared-protocols](https://github.com/home-assistant-libs/infrared-protocols) if the
 protocol is ever added there.
 
+## Versioning
+
+Version numbers follow [ZeroVer](https://0ver.org/): the major version stays at 0
+indefinitely, so a 0.y bump can carry breaking changes. See the
+[releases](https://github.com/nikosavola/electrolux-ac-infrared/releases) for what
+changed between versions.
+
 ## Development
 
 ```bash
