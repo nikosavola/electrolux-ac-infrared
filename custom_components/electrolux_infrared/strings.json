@@ -1,0 +1,36 @@
+{
+  "config": {
+    "abort": {
+      "already_configured": "This infrared transmitter is already used by an Electrolux air conditioner.",
+      "no_emitters": "No infrared transmitter entities found. Set up an infrared adapter, such as ESPHome or Broadlink, first.",
+      "receiver_in_use": "This infrared receiver is already followed by another Electrolux air conditioner.",
+      "reconfigure_successful": "Reconfiguration was successful."
+    },
+    "step": {
+      "reconfigure": {
+        "data": {
+          "infrared_emitter_entity_id": "Infrared transmitter",
+          "infrared_receiver_entity_id": "Infrared receiver"
+        },
+        "data_description": {
+          "infrared_emitter_entity_id": "The infrared transmitter used to send commands to the air conditioner.",
+          "infrared_receiver_entity_id": "Optional. An infrared receiver that picks up the physical remote, so Home Assistant follows along when the remote is used."
+        },
+        "description": "Select the infrared transmitter that is pointed at your Electrolux air conditioner.",
+        "title": "Reconfigure Electrolux air conditioner"
+      },
+      "user": {
+        "data": {
+          "infrared_emitter_entity_id": "Infrared transmitter",
+          "infrared_receiver_entity_id": "Infrared receiver"
+        },
+        "data_description": {
+          "infrared_emitter_entity_id": "The infrared transmitter used to send commands to the air conditioner.",
+          "infrared_receiver_entity_id": "Optional. An infrared receiver that picks up the physical remote, so Home Assistant follows along when the remote is used."
+        },
+        "description": "Select the infrared transmitter that is pointed at your Electrolux air conditioner.",
+        "title": "Set up Electrolux air conditioner"
+      }
+    }
+  }
+}
