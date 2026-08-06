@@ -1,4 +1,4 @@
-"""Tests for the Electrolux Infrared climate entity."""
+"""Tests for the Electrolux AC Infrared climate entity."""
 
 from typing import Any
 
@@ -34,7 +34,7 @@ from pytest_homeassistant_custom_component.common import (
     mock_restore_cache,
 )
 
-from custom_components.electrolux_infrared.electrolux_ac import (
+from custom_components.electrolux_ac_infrared.electrolux_ac import (
     ElectroluxAcCommand,
     ElectroluxAcFanSpeed,
     ElectroluxAcMode,

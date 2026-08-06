@@ -1,5 +1,5 @@
 [project]
-name = "electrolux-infrared"
+name = "electrolux-ac-infrared"
 version = "0.1.0"
 description = "Home Assistant integration for Electrolux air conditioners controlled over infrared"
 requires-python = ">=3.14"

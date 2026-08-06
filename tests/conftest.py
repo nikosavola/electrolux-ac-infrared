@@ -1,4 +1,4 @@
-"""Fixtures for the Electrolux Infrared tests."""
+"""Fixtures for the Electrolux AC Infrared tests."""
 
 from collections.abc import Generator
 from dataclasses import dataclass
@@ -27,7 +27,7 @@ from pytest_homeassistant_custom_component.common import (
     mock_platform,
 )
 
-from custom_components.electrolux_infrared.const import (
+from custom_components.electrolux_ac_infrared.const import (
     CONF_INFRARED_EMITTER_ENTITY_ID,
     CONF_INFRARED_RECEIVER_ENTITY_ID,
     DOMAIN,
@@ -157,6 +157,6 @@ def mock_config_entry_with_receiver() -> MockConfigEntry:
 def mock_setup_entry() -> Generator[None]:
     """Prevent the integration from actually being set up."""
     with patch(
-        "custom_components.electrolux_infrared.async_setup_entry", return_value=True
+        "custom_components.electrolux_ac_infrared.async_setup_entry", return_value=True
     ):
         yield

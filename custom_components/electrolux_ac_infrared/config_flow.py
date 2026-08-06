@@ -1,4 +1,4 @@
-"""Config flow for the Electrolux Infrared integration."""
+"""Config flow for the Electrolux AC Infrared integration."""
 
 from typing import Any, override
 
@@ -18,7 +18,7 @@ from .const import (
 
 
 class ElectroluxInfraredConfigFlow(ConfigFlow, domain=DOMAIN):
-    """Handle a config flow for Electrolux Infrared."""
+    """Handle a config flow for Electrolux AC Infrared."""
 
     VERSION = 1
 

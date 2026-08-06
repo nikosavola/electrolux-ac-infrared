@@ -2,7 +2,7 @@
 
 import pytest
 
-from custom_components.electrolux_infrared.electrolux_ac import (
+from custom_components.electrolux_ac_infrared.electrolux_ac import (
     MAX_TEMP,
     MIN_TEMP,
     ElectroluxAcCommand,

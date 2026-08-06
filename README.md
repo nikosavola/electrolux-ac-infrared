@@ -1,4 +1,4 @@
-# Electrolux Infrared
+# Electrolux AC Infrared
 
 Home Assistant custom integration for Electrolux air conditioners that are controlled
 with an infrared remote. It builds on the
@@ -23,17 +23,17 @@ hardware itself.
 ### HACS
 
 1. Add this repository to HACS as a custom repository of type *Integration*.
-1. Install **Electrolux Infrared**.
+1. Install **Electrolux AC Infrared**.
 1. Restart Home Assistant.
 
 ### Manual
 
-Copy `custom_components/electrolux_infrared` into your Home Assistant `config/custom_components`
+Copy `custom_components/electrolux_ac_infrared` into your Home Assistant `config/custom_components`
 directory and restart Home Assistant.
 
 ## Configuration
 
-Go to **Settings → Devices & services → Add integration** and pick **Electrolux Infrared**.
+Go to **Settings → Devices & services → Add integration** and pick **Electrolux AC Infrared**.
 Select the infrared transmitter that is pointed at the air conditioner, and optionally an
 infrared receiver.
 
@@ -117,7 +117,7 @@ Timings are an 8950 µs / 4530 µs header, a 563 µs mark per bit followed by a 
 space for a one or a 538 µs space for a zero, and a 563 µs / 10000 µs footer.
 
 The encoder lives in
-[`electrolux_ac.py`](custom_components/electrolux_infrared/electrolux_ac.py) and
+[`electrolux_ac.py`](custom_components/electrolux_ac_infrared/electrolux_ac.py) and
 implements the `infrared_protocols.commands.Command` interface, so it could move into
 [infrared-protocols](https://github.com/home-assistant-libs/infrared-protocols) if the
 protocol is ever added there.

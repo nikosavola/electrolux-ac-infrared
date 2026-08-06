@@ -1,4 +1,4 @@
-"""Tests for the Electrolux Infrared config flow."""
+"""Tests for the Electrolux AC Infrared config flow."""
 
 from homeassistant.config_entries import SOURCE_USER
 from homeassistant.core import HomeAssistant
@@ -6,7 +6,7 @@ from homeassistant.data_entry_flow import FlowResultType
 import pytest
 from pytest_homeassistant_custom_component.common import MockConfigEntry
 
-from custom_components.electrolux_infrared.const import (
+from custom_components.electrolux_ac_infrared.const import (
     CONF_INFRARED_EMITTER_ENTITY_ID,
     CONF_INFRARED_RECEIVER_ENTITY_ID,
     DOMAIN,

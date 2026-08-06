@@ -1,1 +1,1 @@
-"""Tests for the Electrolux Infrared integration."""
+"""Tests for the Electrolux AC Infrared integration."""
