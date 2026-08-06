@@ -2,13 +2,15 @@
 name = "electrolux-ac-infrared"
 version = "0.1.0"
 description = "Home Assistant integration for Electrolux air conditioners controlled over infrared"
-requires-python = ">=3.14"
+requires-python = ">=3.14.2"
 
 [dependency-groups]
-test = [
-  "pyrefly==1.2.0",
-  "pytest-homeassistant-custom-component==0.13.353",
-  "ruff==0.16.1",
+dev = [
+  "pytest>=9.0.0",
+  "pytest-homeassistant-custom-component>=0.13.354",
+]
+github = [
+  "pytest-github-actions-annotate-failures>=0.4.2",
 ]
 
 [tool.codespell]
@@ -25,7 +27,7 @@ project-includes = ["custom_components/**/*.py", "tests/**/*.py"]
 # standard pattern across HA core and every custom integration, not a real bug here.
 bad-override-mutable-attribute = "ignore"
 
-[tool.pytest.ini_options]
+[tool.pytest]
 testpaths = ["tests"]
 asyncio_mode = "auto"
 
