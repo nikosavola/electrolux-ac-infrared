@@ -2,7 +2,33 @@
 name = "electrolux-ac-infrared"
 version = "0.1.0"
 description = "Home Assistant integration for Electrolux air conditioners controlled over infrared"
+readme = "README.md"
 requires-python = ">=3.14.2"
+license = { file = "LICENSE" }
+authors = [{ name = "Niko Savola", email = "nikomsavola@gmail.com" }]
+keywords = [
+  "air-conditioner",
+  "climate",
+  "electrolux",
+  "hacs",
+  "home-assistant",
+  "infrared",
+  "ir-remote",
+]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: End Users/Desktop",
+  "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3.14",
+  "Topic :: Home Automation",
+  "Typing :: Typed",
+]
+
+[project.urls]
+"Bug Tracker" = "https://github.com/nikosavola/electrolux-ac-infrared/issues"
+changelog = "https://github.com/nikosavola/electrolux-ac-infrared/releases"
+repository = "https://github.com/nikosavola/electrolux-ac-infrared/"
 
 [dependency-groups]
 dev = [
