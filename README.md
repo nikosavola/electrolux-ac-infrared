@@ -133,7 +133,9 @@ changed between versions.
 
 ## Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for development setup and guidelines.
+See [CONTRIBUTING.md](CONTRIBUTING.md) for development setup and guidelines, and
+[CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) for community expectations. Found a security
+issue? See [SECURITY.md](SECURITY.md) instead of opening a public issue.
 
 ## Credits
 

@@ -41,3 +41,18 @@ Copy `custom_components/electrolux_ac_infrared/translations/en.json` to
 `<language-code>.json` in the same directory and translate the values, keeping the
 keys identical. [Supported language codes are listed in Home Assistant's developer
 docs](https://developers.home-assistant.io/docs/internationalization/translation/#getting-started).
+
+## AI usage policy
+
+Using AI tools to accelerate your workflow, whether for prototyping, writing tests, or
+improving documentation, is **encouraged**.
+
+However, as a contributor, you remain **fully responsible** for the code and content
+you submit. Please ensure the following:
+
+1. **No "AI slop"**: don't submit unreviewed, low-quality, or redundant AI-generated
+   content.
+1. **Verify and test**: all AI-generated code must be reviewed, tested, and verified
+   to work as intended.
+1. **Maintainability**: the content must be clear, idiomatic, and maintainable by a
+   human.
