@@ -76,14 +76,14 @@ repos:
     hooks:
       - id: yamlfmt
         priority: 10
-        args: [-conf, .yamlfmt.yaml]
+        args: [-conf, .github/.yamlfmt.yaml]
 
   - repo: https://github.com/adrienverge/yamllint
     rev: v1.38.0
     hooks:
       - id: yamllint
         priority: 20
-        args: [--strict, -c=.yamllint.yaml]
+        args: [--strict, -c=.github/.yamllint.yaml]
 
   - repo: https://github.com/executablebooks/mdformat
     rev: "1.0.0"
@@ -100,3 +100,4 @@ repos:
     hooks:
       - id: markdownlint-cli2
         priority: 20
+        args: [--config, .github/.markdownlint-cli2.yaml]
