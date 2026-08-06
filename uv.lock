@@ -775,6 +775,7 @@ source = { virtual = "." }
 dev = [
   { name = "infrared-protocols" },
   { name = "pytest" },
+  { name = "pytest-cov" },
   { name = "pytest-homeassistant-custom-component" },
 ]
 github = [
@@ -786,6 +787,7 @@ github = [
 dev = [
   { name = "infrared-protocols", specifier = ">=8.2.1" },
   { name = "pytest", specifier = ">=9.0.0" },
+  { name = "pytest-cov", specifier = ">=7.0.0" },
   { name = "pytest-homeassistant-custom-component", specifier = ">=0.13.354" },
 ]
 github = [

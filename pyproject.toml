@@ -34,6 +34,7 @@ repository = "https://github.com/nikosavola/electrolux-ac-infrared/"
 dev = [
   "infrared-protocols>=8.2.1",
   "pytest>=9.0.0",
+  "pytest-cov>=7.0.0",
   "pytest-homeassistant-custom-component>=0.13.354",
 ]
 github = ["pytest-github-actions-annotate-failures>=0.4.2"]
@@ -42,6 +43,12 @@ github = ["pytest-github-actions-annotate-failures>=0.4.2"]
 # "hass" is the near-universal name for the HomeAssistant instance argument, not a typo.
 # "som", "mot" and "exempel" are Swedish words in the sv.json translation, not typos.
 ignore-words-list = "hass,som,mot,exempel"
+
+[tool.coverage.run]
+source = ["custom_components/electrolux_ac_infrared"]
+
+[tool.coverage.report]
+exclude_also = ["if TYPE_CHECKING:"]
 
 [tool.pyrefly]
 python-version = "3.14"
