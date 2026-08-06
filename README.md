@@ -23,8 +23,8 @@ hardware itself.
 ### HACS
 
 1. Add this repository to HACS as a custom repository of type *Integration*.
-2. Install **Electrolux Infrared**.
-3. Restart Home Assistant.
+1. Install **Electrolux Infrared**.
+1. Restart Home Assistant.
 
 ### Manual
 
@@ -45,12 +45,12 @@ for a second unit. The transmitter and receiver can be changed later through
 
 A single `climate` entity is created per air conditioner:
 
-| Feature | Values |
-| --- | --- |
-| HVAC modes | off, heat/cool (auto), cool, heat, dry, fan only |
-| Target temperature | 16–32 °C in 1 °C steps |
-| Fan modes | auto, low, medium, high |
-| Swing modes | off, vertical |
+| Feature            | Values                                           |
+| ------------------ | ------------------------------------------------ |
+| HVAC modes         | off, heat/cool (auto), cool, heat, dry, fan only |
+| Target temperature | 16–32 °C in 1 °C steps                           |
+| Fan modes          | auto, low, medium, high                          |
+| Swing modes        | off, vertical                                    |
 
 Two quirks of the unit are mirrored by the entity, matching what the physical remote
 does:
@@ -103,15 +103,15 @@ Other Electrolux units using the same remote are likely to work.
 
 Every transmission is a complete 13-byte state frame at 38 kHz:
 
-| Byte | Contents |
-| --- | --- |
-| 0 | `0xC3` constant header |
-| 1 | bits 7-5 swing, bits 4-0 temperature (`temp_c - 8`, bit reversed) |
-| 4 | fan speed |
-| 6 | operating mode |
-| 9 | bit 2 power |
-| 12 | checksum: bit reversed sum of the bit reversed leading 12 bytes |
-| others | zero |
+| Byte   | Contents                                                          |
+| ------ | ----------------------------------------------------------------- |
+| 0      | `0xC3` constant header                                            |
+| 1      | bits 7-5 swing, bits 4-0 temperature (`temp_c - 8`, bit reversed) |
+| 4      | fan speed                                                         |
+| 6      | operating mode                                                    |
+| 9      | bit 2 power                                                       |
+| 12     | checksum: bit reversed sum of the bit reversed leading 12 bytes   |
+| others | zero                                                              |
 
 Timings are an 8950 µs / 4530 µs header, a 563 µs mark per bit followed by a 1690 µs
 space for a one or a 538 µs space for a zero, and a 563 µs / 10000 µs footer.
@@ -130,6 +130,13 @@ uv pip install -r requirements-test.txt
 .venv/bin/python -m pytest
 .venv/bin/ruff check . && .venv/bin/ruff format --check .
 .venv/bin/pyrefly check
+```
+
+Or run everything through the [pre-commit](https://pre-commit.com) hooks with
+[`prek`](https://github.com/j178/prek):
+
+```bash
+uvx prek run --all-files
 ```
 
 ## Credits

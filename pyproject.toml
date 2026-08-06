@@ -128,3 +128,7 @@ project-includes = ["custom_components/**/*.py", "tests/**/*.py"]
 # `int | None` etc. on the base Entity) to a specific enum/literal type. That is the
 # standard pattern across HA core and every custom integration, not a real bug here.
 bad-override-mutable-attribute = "ignore"
+
+[tool.codespell]
+# "hass" is the near-universal name for the HomeAssistant instance argument, not a typo.
+ignore-words-list = "hass"
