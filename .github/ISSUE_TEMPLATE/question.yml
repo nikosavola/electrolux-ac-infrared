@@ -1,0 +1,24 @@
+name: Question or Help
+description: Ask a question about setup or usage
+labels: ["question"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Have a question? Please check the [README](https://github.com/nikosavola/electrolux-ac-infrared#readme) first.
+  - type: textarea
+    id: question
+    attributes:
+      label: What's your question?
+      description: What are you trying to do, and what have you tried so far?
+      placeholder: |
+        I'm trying to... and I've tried...
+    validations:
+      required: true
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checks
+      options:
+        - label: I have checked the README and existing issues
+          required: true

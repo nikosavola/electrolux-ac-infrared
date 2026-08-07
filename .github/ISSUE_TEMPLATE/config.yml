@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 📖 README
+    url: https://github.com/nikosavola/electrolux-ac-infrared#readme
+    about: Installation, configuration, supported devices, and known limitations
+  - name: 🔒 Report a security vulnerability
+    url: https://github.com/nikosavola/electrolux-ac-infrared/security/policy
+    about: Please don't open a public issue for security issues; see SECURITY.md instead
+  - name: 🏠 Home Assistant Community
+    url: https://community.home-assistant.io/
+    about: For general Home Assistant help unrelated to this integration
