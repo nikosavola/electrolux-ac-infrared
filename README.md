@@ -186,6 +186,20 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for development setup and guidelines, and
 [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) for community expectations. Found a security
 issue? See [SECURITY.md](SECURITY.md) instead of opening a public issue.
 
+## Related projects
+
+- [`tuya-smart-ir-ac`](https://github.com/EnzoD86/tuya-smart-ir-ac): drives IR air
+  conditioners (and other IR devices) through a Tuya Smart IR hub over Tuya's own cloud
+  API, instead of the `infrared` building block this integration uses. Worth a look if
+  your air conditioner isn't Electrolux, or you'd rather not set up a separate adapter
+  integration.
+- [`localtuya_rc`](https://github.com/ClusterM/localtuya_rc): a local, non-cloud Tuya
+  remote-control integration whose `infrared` adapter entity was used to verify this
+  integration on real hardware.
+- [`ha-electrolux`](https://github.com/TTLucian/ha-electrolux): talks to Electrolux's own
+  cloud API instead of infrared. Use this one if your AC connects to the Electrolux app
+  directly, rather than shipping with just a remote.
+
 ## Credits
 
 The protocol implemented here comes from
