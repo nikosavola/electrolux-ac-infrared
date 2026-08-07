@@ -8,21 +8,21 @@
 
 ______________________________________________________________________
 
-Home Assistant custom integration for Electrolux air conditioners that are controlled
-with an infrared remote. It builds on the
+Home Assistant custom integration for Electrolux air conditioners controlled with an infrared
+remote. It builds on the
 [Infrared building block integration](https://www.home-assistant.io/integrations/infrared/)
-added in Home Assistant 2026.4, so any IR transmitter Home Assistant already exposes as
-an infrared emitter — an ESPHome node with an IR LED, a SMLIGHT SLZB adapter, a
-Broadlink blaster — can drive the air conditioner.
+added in Home Assistant 2026.4, so any IR transmitter Home Assistant exposes as an
+infrared emitter (an ESPHome node with an IR LED, a SMLIGHT SLZB adapter, a Broadlink
+blaster) can drive the air conditioner.
 
-The integration only encodes the Electrolux IR protocol. It does not talk to any
-hardware itself.
+The integration only encodes the Electrolux IR protocol; it doesn't talk to hardware
+directly.
 
 ## How it fits together
 
-This integration is one link in a chain. Home Assistant's `infrared` building block is
-the interface between it and whatever hardware actually emits (and optionally receives)
-infrared, which is provided by a separate adapter integration:
+This integration is one link in a chain: the `infrared` building block is the interface
+to whatever hardware actually emits (and optionally receives) infrared, provided by a
+separate adapter integration:
 
 ```mermaid
 flowchart LR
@@ -37,9 +37,8 @@ flowchart LR
     class climate highlight;
 ```
 
-This integration only ever produces or parses IR frames — the "Adapter integration" box is
-whichever one matches your actual IR hardware, picked when you set up *that* integration,
-independently of this one. See the
+This integration only produces or parses IR frames. The "Adapter integration" box is
+whichever one matches your IR hardware, set up independently of this one. See the
 [full list of `infrared` adapters](https://www.home-assistant.io/integrations/#infrared) for
 what's available.
 
@@ -68,13 +67,13 @@ directory and restart Home Assistant.
 
 ## Configuration
 
-Go to **Settings → Devices & services → Add integration** and pick **Electrolux AC Infrared**.
-Select the infrared transmitter that is pointed at the air conditioner, and optionally an
-infrared receiver.
+Go to **Settings → Devices & services → Add integration**, pick **Electrolux AC Infrared**,
+and select the infrared transmitter pointed at the air conditioner (optionally also a
+receiver).
 
-One transmitter drives one air conditioner. Add another entry, with its own transmitter,
-for a second unit. The transmitter and receiver can be changed later through
-**Reconfigure** on the integration entry.
+One transmitter drives one air conditioner; add another entry, with its own transmitter,
+for a second unit. Change the transmitter or receiver later through **Reconfigure** on
+the integration entry.
 
 ## Supported functionality
 
@@ -95,29 +94,24 @@ does:
 
 ## Known limitations
 
-- **Assumed state.** Infrared is one-way, so the entity shows what was last sent, not
-  what the unit is actually doing. If someone uses the physical remote, or the AC is
-  power cycled, Home Assistant can drift out of sync. The state is restored across
-  restarts.
-- **Receive path is unverified against real hardware.** Configuring an infrared receiver
-  reduces drift from the point above: frames from the physical remote are decoded and
-  applied to the entity. It's implemented from the same protocol description as the
-  transmit path, but hasn't been checked against a physical remote and a real receiver —
-  a frame that fails to decode is just ignored, so a mismatch here can't break sending.
-- **No temperature readback.** The air conditioner's own temperature sensor isn't
-  readable over infrared, so the entity reports no current temperature. Pair it with a
-  separate temperature sensor if you need one.
-- **Off means stored, not sent.** Changing the fan speed, swing or target temperature
-  while the unit is off stores the setting for the next power-on instead of
-  transmitting — the air conditioner can't act on it while off, and firing the
-  transmitter would only resend a power-off frame.
-- **Restart-while-off loses the last mode.** If a restart happens while the unit is off,
-  `climate.turn_on` falls back to cool rather than the mode it last ran in, since only
-  the off state is restored.
-- **Availability follows both entities.** When a receiver is configured, the entity is
-  marked unavailable if *either* the transmitter or the receiver goes unavailable, even
-  though it could still transmit. This comes from the shared infrared helper in Home
-  Assistant core, not this integration.
+- **Assumed state.** Infrared is one-way, so the entity shows what was last sent, not the
+  unit's actual state. Using the physical remote or power-cycling the AC can drift it out
+  of sync; state is restored across restarts.
+- **Receive path is unverified against real hardware.** An infrared receiver reduces that
+  drift: remote frames are decoded and applied to the entity. It's implemented from the
+  same protocol description as transmit, but hasn't been checked against real hardware;
+  an undecodable frame is just ignored, so it can't break sending.
+- **No temperature readback.** The AC's own temperature sensor isn't readable over
+  infrared, so the entity reports none. Pair it with a separate sensor if you need one.
+- **Off means stored, not sent.** Changing fan speed, swing, or target temperature while
+  off stores it for the next power-on instead of transmitting, since the AC can't act on
+  it while off and firing the transmitter would just resend a power-off frame.
+- **Restart-while-off loses the last mode.** A restart while the unit is off makes
+  `climate.turn_on` fall back to cool rather than the last-used mode, since only the off
+  state is restored.
+- **Availability follows both entities.** With a receiver configured, the entity goes
+  unavailable if *either* entity does, even though it could still transmit. That's Home
+  Assistant core's shared infrared helper, not this integration.
 
 ## Supported devices
 
@@ -134,7 +128,7 @@ Other Electrolux units using the same remote are likely to work.
 ## Protocol
 
 Every transmission is a single, complete 13-byte state frame sent once at a 38 kHz
-carrier — there's no separate repeat or toggle bit, so re-sending the same frame is
+carrier. There's no separate repeat or toggle bit, so re-sending the same frame is
 always safe.
 
 ### Frame layout
@@ -170,8 +164,8 @@ c3 e1 00 00 05 00 04 00 00 04 00 00 54
 | Footer mark          | 563 µs   |
 | Footer space         | 10000 µs |
 
-Each of the 104 data bits is sent as a fixed-length mark followed by one of two
-space lengths, so the bit value lives entirely in the space that follows it.
+Each of the 104 bits is a fixed-length mark followed by one of two space lengths, which
+is what encodes its value.
 
 The encoder lives in
 [`electrolux_ac.py`](custom_components/electrolux_ac_infrared/electrolux_ac.py) and
