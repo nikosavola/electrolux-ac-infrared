@@ -1,0 +1,70 @@
+name: Bug Report
+description: Report a problem with the integration
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting a bug! Please provide the details below so it can be reproduced.
+  - type: textarea
+    id: description
+    attributes:
+      label: What happened?
+      description: Describe the bug and what you expected to happen instead
+      placeholder: |
+        When I set the temperature to..., I expected... but instead...
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: How to reproduce
+      description: Steps to reproduce the issue
+      placeholder: |
+        1. Set the climate entity to...
+        2. ...
+    validations:
+      required: true
+  - type: input
+    id: ha-version
+    attributes:
+      label: Home Assistant version
+      placeholder: "2026.4.0"
+    validations:
+      required: true
+  - type: input
+    id: integration-version
+    attributes:
+      label: Electrolux AC Infrared version
+      placeholder: "0.1.1"
+    validations:
+      required: true
+  - type: input
+    id: adapter
+    attributes:
+      label: Infrared adapter integration
+      description: What provides your `infrared` emitter/receiver entity? (ESPHome, SMLIGHT SLZB, Broadlink, LocalTuya, ...)
+      placeholder: "ESPHome"
+    validations:
+      required: true
+  - type: input
+    id: ac-model
+    attributes:
+      label: Air conditioner model
+      placeholder: "EXP26U339HW"
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant logs
+      description: |
+        Debug logs for this integration help a lot. Enable them under
+        Settings → Devices & services → Electrolux AC Infrared → Enable debug logging,
+        reproduce the issue, then paste the relevant lines here.
+      render: text
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checks
+      options:
+        - label: I have searched existing issues
+          required: true
