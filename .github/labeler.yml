@@ -1,0 +1,55 @@
+# Configuration for GitHub Actions PR Labeler
+# https://github.com/actions/labeler
+ci:
+  - any:
+      - changed-files:
+          - any-glob-to-any-file: ".github/workflows/**/*"
+
+dependencies:
+  - any:
+      - changed-files:
+          - any-glob-to-any-file: "pyproject.toml"
+          - any-glob-to-any-file: "uv.lock"
+
+documentation:
+  - any:
+      - changed-files:
+          - any-glob-to-any-file: "*.md"
+          - any-glob-to-any-file: ".github/copilot-instructions.md"
+          - any-glob-to-any-file: ".github/ISSUE_TEMPLATE/**/*"
+
+pre-commit:
+  - any:
+      - changed-files:
+          - any-glob-to-any-file: ".pre-commit-config.yaml"
+
+protocol:
+  - any:
+      - changed-files:
+          - any-glob-to-any-file: "custom_components/electrolux_ac_infrared/electrolux_ac.py"
+
+entity:
+  - any:
+      - changed-files:
+          - any-glob-to-any-file: "custom_components/electrolux_ac_infrared/climate.py"
+          - any-glob-to-any-file: "custom_components/electrolux_ac_infrared/config_flow.py"
+          - any-glob-to-any-file: "custom_components/electrolux_ac_infrared/const.py"
+          - any-glob-to-any-file: "custom_components/electrolux_ac_infrared/__init__.py"
+
+translations:
+  - any:
+      - changed-files:
+          - any-glob-to-any-file: "custom_components/electrolux_ac_infrared/strings.json"
+          - any-glob-to-any-file: "custom_components/electrolux_ac_infrared/translations/**/*"
+
+hacs:
+  - any:
+      - changed-files:
+          - any-glob-to-any-file: "hacs.json"
+          - any-glob-to-any-file: "custom_components/electrolux_ac_infrared/manifest.json"
+          - any-glob-to-any-file: "custom_components/electrolux_ac_infrared/brand/**/*"
+
+tests:
+  - any:
+      - changed-files:
+          - any-glob-to-any-file: "tests/**/*"
