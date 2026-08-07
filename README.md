@@ -8,7 +8,7 @@
 
 ______________________________________________________________________
 
-Home Assistant custom integration for Electrolux air conditioners controlled by infrared
+Home Assistant custom integration for Electrolux air conditioners controlled with an infrared
 remote. It builds on the
 [Infrared building block integration](https://www.home-assistant.io/integrations/infrared/)
 added in Home Assistant 2026.4, so any IR transmitter Home Assistant exposes as an
