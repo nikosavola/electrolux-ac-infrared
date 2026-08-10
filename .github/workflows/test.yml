@@ -18,7 +18,7 @@ jobs:
           persist-credentials: false
       - uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9  # v9.0.0
       - name: Pytest
-        run: uv run --dev --group github pytest --cov --cov-branch --cov-report=xml --junitxml=junit.xml -o junit_family=legacy
+        run: uv run --locked --dev --group github pytest --cov --cov-branch --cov-report=xml --junitxml=junit.xml -o junit_family=legacy
       - uses: codecov/codecov-action@e53489f4d376d79066609109e7a95a29eb3740b1  # v7.0.0
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
