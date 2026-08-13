@@ -3,6 +3,7 @@
 [![Test](https://github.com/nikosavola/electrolux-ac-infrared/actions/workflows/test.yml/badge.svg)](https://github.com/nikosavola/electrolux-ac-infrared/actions/workflows/test.yml)
 [![Validate](https://github.com/nikosavola/electrolux-ac-infrared/actions/workflows/validate.yml/badge.svg)](https://github.com/nikosavola/electrolux-ac-infrared/actions/workflows/validate.yml)
 [![codecov](https://codecov.io/gh/nikosavola/electrolux-ac-infrared/graph/badge.svg)](https://codecov.io/gh/nikosavola/electrolux-ac-infrared)
+[![Quality gate status](https://sonarcloud.io/api/project_badges/measure?project=nikosavola_electrolux-ac-infrared&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=nikosavola_electrolux-ac-infrared)
 [![License: GPL v3](https://img.shields.io/github/license/nikosavola/electrolux-ac-infrared)](LICENSE)
 [![Latest release](https://img.shields.io/github/v/release/nikosavola/electrolux-ac-infrared)](https://github.com/nikosavola/electrolux-ac-infrared/releases)
 
