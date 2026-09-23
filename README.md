@@ -132,6 +132,8 @@ Every transmission is a single, complete 13-byte state frame sent once at a 38 k
 carrier. There's no separate repeat or toggle bit, so re-sending the same frame is
 always safe.
 
+![One frame to scale: a long header, then 104 bits, above the 13 frame bytes colored by field](docs/images/frame.svg)
+
 ### Frame layout
 
 | Byte(s)   | Field                                                             |
@@ -153,6 +155,11 @@ For example, cool mode, 24 °C, fan auto, power on encodes to:
 c3 e1 00 00 05 00 04 00 00 04 00 00 54
 ```
 
+Byte 1 of that frame shows the bit reversal: 24 °C is sent as `24 - 8 = 16`, reversed
+from `10000` to `00001`.
+
+![Byte 1 as eight bits: swing off 111, then temperature 00001](docs/images/byte1.svg)
+
 ### Timings
 
 | Segment              | Duration |
@@ -166,7 +173,15 @@ c3 e1 00 00 05 00 04 00 00 04 00 00 54
 | Footer space         | 10000 µs |
 
 Each of the 104 bits is a fixed-length mark followed by one of two space lengths, which
-is what encodes its value.
+is what encodes its value. Here's the header and byte 0 (`0xC3`) to scale:
+
+![Header mark and space, then byte 0 as bits 1 1 0 0 0 0 1 1](docs/images/first-byte.svg)
+
+Each mark is itself a burst of the 38 kHz carrier, which the receiver strips off:
+
+![A 0 bit and a 1 bit, zoomed into the 38 kHz carrier inside a mark](docs/images/carrier.svg)
+
+The figures are generated from [`docs/figures.typ`](docs/figures.typ) with [Typst](https://typst.app).
 
 The encoder lives in
 [`electrolux_ac.py`](custom_components/electrolux_ac_infrared/electrolux_ac.py) and
