@@ -1,0 +1,4 @@
+[codespell]
+# The talk is in Finnish, which codespell reads as English typos.
+skip = ./main.typ,./figures.typ,main.typ,figures.typ
+ignore-words-list = hass

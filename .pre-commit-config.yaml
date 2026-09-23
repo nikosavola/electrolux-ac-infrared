@@ -1,0 +1,99 @@
+# Uses prek's `priority` key for parallel hook ordering, so run it with prek, not pre-commit.
+# 10: formatters and independent checks, 20: linters that follow a formatter,
+# 30: end-of-file-fixer, 40: trailing-whitespace
+# Skill symlinks point into submodules; don't let hooks follow them into vendored docs.
+exclude: ^(\.agents|\.claude)/
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: check-yaml
+        priority: 20
+      - id: check-json
+        priority: 20
+      - id: check-toml
+        priority: 20
+      - id: check-symlinks
+        priority: 10
+      # Font license texts are kept verbatim from upstream.
+      - id: end-of-file-fixer
+        priority: 30
+        exclude: ^fonts/
+      - id: trailing-whitespace
+        priority: 40
+        exclude: ^fonts/
+      - id: detect-private-key
+        priority: 10
+      - id: mixed-line-ending
+        priority: 10
+  - repo: https://github.com/codespell-project/codespell
+    rev: v2.4.2
+    hooks:
+      - id: codespell
+        priority: 10
+        exclude: ^fonts/.*\.(ttf|otf)$
+  - repo: https://github.com/google/yamlfmt
+    rev: v0.21.0
+    hooks:
+      - id: yamlfmt
+        priority: 10
+        args: [-conf, ".github/.yamlfmt.yaml"]
+  - repo: https://github.com/adrienverge/yamllint.git
+    rev: v1.38.0
+    hooks:
+      - id: yamllint
+        priority: 20
+        args: [--strict, "-c=.github/.yamllint.yaml"]
+  - repo: https://github.com/rhysd/actionlint
+    rev: v1.7.12
+    hooks:
+      - id: actionlint
+        priority: 10
+  - repo: https://github.com/zizmorcore/zizmor-pre-commit
+    rev: v1.25.0
+    hooks:
+      - id: zizmor
+        priority: 10
+  - repo: https://github.com/DavidAnson/markdownlint-cli2
+    rev: v0.22.1
+    hooks:
+      - id: markdownlint-cli2
+        priority: 20
+        name: markdownlint
+        args: [--config, .github/.markdownlint-cli2.yaml]
+  - repo: https://github.com/executablebooks/mdformat
+    rev: 1.0.0
+    hooks:
+      - id: mdformat
+        priority: 10
+        args: [--wrap=120]
+        additional_dependencies:
+          - mdformat-gfm
+          - mdformat-gfm-alerts
+          - mdformat-frontmatter
+          - mdformat-footnote
+  - repo: https://github.com/typstyle-rs/pre-commit-typstyle
+    rev: v0.15.1
+    hooks:
+      - id: typstyle
+        priority: 10
+        # Overriding args replaces the hook's default `-i`. Keep the width in sync with the justfile.
+        args: [-i, --line-width, "100"]
+  - repo: https://github.com/FlamingTempura/bibtex-tidy
+    rev: v1.14.0
+    hooks:
+      - id: bibtex-tidy
+        priority: 10
+        # The hook's own entry passes --modify, which turns on .original backups unless disabled.
+        entry: ./bin/bibtex-tidy --modify --no-backup
+        # No --strip-enclosing-braces: it turns corporate authors like {{Some Org}} into people.
+        args: ['--align=1', '--curly', '--months', '--sort', '--duplicates']
+  - repo: local
+    hooks:
+      - id: just-fmt
+        priority: 10
+        name: just-fmt
+        entry: just --fmt --unstable --justfile
+        pass_filenames: true
+        files: ^justfile$
+        language: system

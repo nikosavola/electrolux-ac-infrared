@@ -1,0 +1,11 @@
+# Changes here will be overwritten by Copier; NEVER EDIT MANUALLY
+_commit: 2c76c16
+_src_path: gh:nikosavola/typst-touying-template
+author_name: Niko Savola
+deck_subtitle: Oma integraatio ilmastointilaitteelle, jota ohjataan vain infrapunalla
+deck_title: Home Assistant oppii puhumaan Electroluxia
+event: Home Assistant Community Day, Helsinki
+font_style: sans
+github_pages: true
+pages_branch: presentation
+project_name: electrolux-ir-talk
