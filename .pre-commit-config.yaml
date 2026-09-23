@@ -117,3 +117,11 @@ repos:
       - id: markdownlint-cli2
         priority: 20
         args: [--config, .github/.markdownlint-cli2.yaml]
+
+  - repo: https://github.com/typstyle-rs/pre-commit-typstyle
+    rev: v0.15.1
+    hooks:
+      - id: typstyle
+        priority: 10
+        # Overriding args replaces the hook's default `-i`, so it's repeated here.
+        args: [-i, --line-width, "100"]
