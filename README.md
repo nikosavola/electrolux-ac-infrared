@@ -136,6 +136,23 @@ always safe.
 
 ### Frame layout
 
+Bit positions in the order they're sent, 32 per row:
+
+```mermaid
+packet
+  0-7: "header 0xC3"
+  8-10: "swing"
+  11-15: "temp - 8 (reversed)"
+  16-31: "reserved"
+  32-39: "fan"
+  40-47: "reserved"
+  48-55: "mode"
+  56-71: "reserved"
+  72-79: "power"
+  80-95: "reserved"
+  96-103: "checksum"
+```
+
 | Byte(s)                          | Field                  | Values                                                             |
 | -------------------------------- | ---------------------- | ------------------------------------------------------------------ |
 | `0`                              | header                 | always `0xC3`                                                      |
@@ -147,14 +164,32 @@ always safe.
 | `12`                             | checksum               | see below                                                          |
 | `2`-`3`, `5`, `7`-`8`, `10`-`11` | reserved               | always `0x00`                                                      |
 
-Bits are numbered from the least significant bit, bit 0. Power only uses bit 2 of byte 9,
-which has the value `0x04` (`00000100`): set means on, clear means off. The other seven bits
-of that byte stay zero.
+Within a byte, bits are numbered from the least significant bit, bit 0. Power only uses
+bit 2 of byte 9, which is worth `0x04`:
+
+| Byte 9 bit |  7  |  6  |  5  |  4  |  3  |   2   |  1  |  0  | Value  |
+| ---------- | :-: | :-: | :-: | :-: | :-: | :---: | :-: | :-: | :----: |
+| Power on   |  0  |  0  |  0  |  0  |  0  | **1** |  0  |  0  | `0x04` |
+| Power off  |  0  |  0  |  0  |  0  |  0  |   0   |  0  |  0  | `0x00` |
 
 For example, cool mode, 24 °C, fan auto, power on encodes to:
 
 ```text
 c3 e1 00 00 05 00 04 00 00 04 00 00 54
+```
+
+Changing one setting only changes its own byte and the checksum (marked with `^^`):
+
+```diff
+- c3 e1 00 00 05 00 04 00 00 04 00 00 54   cool, 24 °C, fan auto, on
++ c3 f1 00 00 05 00 04 00 00 04 00 00 4c   24 -> 25 °C
+     ^^                               ^^
+- c3 e1 00 00 05 00 04 00 00 04 00 00 54
++ c3 e1 00 00 04 00 04 00 00 04 00 00 55   fan auto -> high
+              ^^                      ^^
+- c3 e1 00 00 05 00 04 00 00 04 00 00 54
++ c3 e1 00 00 05 00 04 00 00 00 00 00 50   power on -> off
+                             ^^       ^^
 ```
 
 Byte 1 of that frame shows the bit reversal: 24 °C is sent as `24 - 8 = 16`, which is
