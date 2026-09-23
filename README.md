@@ -136,18 +136,20 @@ always safe.
 
 ### Frame layout
 
-| Byte(s)   | Field                                                             |
-| --------- | ----------------------------------------------------------------- |
-| `0`       | `0xC3` constant header                                            |
-| `1`       | bits 7-5 swing, bits 4-0 temperature (`temp_c - 8`, bit-reversed) |
-| `2`-`3`   | reserved, `0x00`                                                  |
-| `4`       | fan speed                                                         |
-| `5`       | reserved, `0x00`                                                  |
-| `6`       | operating mode                                                    |
-| `7`-`8`   | reserved, `0x00`                                                  |
-| `9`       | bit 2 power                                                       |
-| `10`-`11` | reserved, `0x00`                                                  |
-| `12`      | checksum: bit-reversed sum of the bit-reversed leading 12 bytes   |
+| Byte(s)                          | Field                  | Values                                                             |
+| -------------------------------- | ---------------------- | ------------------------------------------------------------------ |
+| `0`                              | header                 | always `0xC3`                                                      |
+| `1`                              | swing (bits 7-5)       | `111` off, `000` vertical                                          |
+|                                  | temperature (bits 4-0) | `temp_c - 8` for 16–32 °C, as five bits, bit-reversed (see below)  |
+| `4`                              | fan speed              | `0x02` medium, `0x04` high, `0x05` auto, `0x06` low                |
+| `6`                              | operating mode         | `0x00` auto, `0x01` heat, `0x02` dry, `0x03` fan only, `0x04` cool |
+| `9`                              | power                  | `0x04` on, `0x00` off                                              |
+| `12`                             | checksum               | see below                                                          |
+| `2`-`3`, `5`, `7`-`8`, `10`-`11` | reserved               | always `0x00`                                                      |
+
+Bits are numbered from the least significant bit, bit 0. Power only uses bit 2 of byte 9,
+which has the value `0x04` (`00000100`): set means on, clear means off. The other seven bits
+of that byte stay zero.
 
 For example, cool mode, 24 °C, fan auto, power on encodes to:
 
@@ -155,10 +157,16 @@ For example, cool mode, 24 °C, fan auto, power on encodes to:
 c3 e1 00 00 05 00 04 00 00 04 00 00 54
 ```
 
-Byte 1 of that frame shows the bit reversal: 24 °C is sent as `24 - 8 = 16`, reversed
-from `10000` to `00001`.
+Byte 1 of that frame shows the bit reversal: 24 °C is sent as `24 - 8 = 16`, which is
+`10000` in five bits, reversed to `00001`. With swing off (`111`) in front, that gives
+`11100001`, or `0xE1`.
 
 ![Byte 1 as eight bits: swing off 111, then temperature 00001](docs/images/byte1.svg)
+
+The checksum uses the same trick. Bit-reverse each of bytes 0 to 11, add them up, keep the
+low byte, and bit-reverse the result. For the example frame, the non-zero bytes reverse to
+`c3 87 a0 20 20`, which sum to `0x22A`. The low byte `0x2A` reversed is `0x54`, the last
+byte of the frame.
 
 ### Timings
 
