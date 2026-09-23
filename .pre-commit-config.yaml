@@ -106,6 +106,8 @@ repos:
         priority: 10
         # Preserve README's manual semantic line breaks instead of reflowing paragraphs.
         args: [--wrap=keep]
+        # mdformat treats agent YAML frontmatter as a Markdown heading.
+        exclude: ^\.github/agents/.*\.agent\.md$
         additional_dependencies:
           - mdformat-gfm
 
