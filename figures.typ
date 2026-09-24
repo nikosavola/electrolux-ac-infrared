@@ -279,3 +279,71 @@
     node([Tarkista \ komento], cycle.red),
   )
 }
+
+/// One button press, from what the user sees to the emitter, with the IR-driven design notes.
+#let state-flow = {
+  let step(title, file, body, color, note) = grid(
+    columns: (1.25fr, 1fr),
+    column-gutter: 1em,
+    box(
+      width: 100%,
+      inset: (x: 0.8em, y: 0.45em),
+      radius: 3pt,
+      fill: color.transparentize(85%),
+      stroke: (left: 4pt + color, rest: 0.6pt + color),
+      {
+        text(weight: "bold", fill: color.darken(20%), title)
+        h(0.5em)
+        text(size: 0.7em, fill: muted, raw(file))
+        linebreak()
+        text(size: 0.75em, body)
+      },
+    ),
+    align(horizon, text(size: 0.7em, fill: ink, note)),
+  )
+  set text(size: 0.9em)
+  let down = pad(left: 1.5em, text(size: 0.8em, fill: muted, sym.arrow.b))
+  grid(
+    columns: (1fr, 0.36fr),
+    column-gutter: 1.2em,
+    stack(
+      spacing: 0.25em,
+      step(
+        [climate-entiteetti],
+        "climate.py",
+        [`hvac_mode`, `target_temperature`, `fan_mode`, `swing_mode`],
+        cycle.blue,
+        [
+          Ei paluukanavaa: `assumed_state` + `RestoreEntity`. Sammutettuna vain tallennetaan.
+        ],
+      ),
+      down,
+      step(
+        [Komento],
+        "electrolux_ac.py",
+        [`ElectroluxAcCommand` #sym.arrow.r 13 tavua],
+        cycle.green,
+        [
+          Koko tila joka kehyksessä, joten yksi `_async_apply` kaikille asetuksille
+        ],
+      ),
+      down,
+      step([Ajoitukset], "get_raw_timings()", [`[8950, -4530, 563, -1690, ...]` µs], cycle.purple, [
+        563 µs pulssi, tauon pituus kertoo bitin
+      ]),
+      down,
+      step([`infrared`], "HA core", [lähettää emitter-entiteetin kautta], cycle.grey, [
+        Integraatio ei tiedä, mikä laite lähettää
+      ]),
+    ),
+    align(horizon, stack(
+      spacing: 0.5em,
+      box(radius: 4pt, clip: true, image("images/ir.jpg", width: 100%)),
+      align(center, text(size: 0.7em)[IR-lähetin, esim. Tuya tai ESPHome]),
+      align(center, rotate(90deg, text(size: 2em, fill: cycle.red, sym.arrow.r.squiggly))),
+      align(center, text(size: 0.7em)[Ilmastointilaite]),
+      v(0.4em),
+      align(center, text(size: 0.45em, fill: muted)[Kuva: Tuya]),
+    )),
+  )
+}

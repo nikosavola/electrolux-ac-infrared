@@ -9,12 +9,11 @@
   aspect-ratio: "16-9",
   bibliography: bibliography(title: none, "refs.bib"),
   config-info(
-    title: [Home Assistant oppii puhumaan Electroluxia],
-    subtitle: [Oma integraatio ilmastointilaitteelle, jota ohjataan vain infrapunalla],
-    short-title: [Electroluxia infrapunalla],
+    title: [Electrolux-ilmastointilaite \ Home Assistantiin],
+    subtitle: [Python-integraatio, Home Assistantin `infrared`-rakennuspalikka ja mikä tahansa IR-lähetin],
+    short-title: [Electrolux Home Assistantiin],
     author: [Niko Savola],
-    institution: [Home Assistant Community Day, Helsinki],
-    date: none,
+    date: [Home Assistant Community Day, Helsinki, 7.11.2026],
   ),
 )
 
@@ -24,17 +23,30 @@
 
 == Ilmastointilaite, jossa on vain kaukosäädin
 
-#slide(composer: (1.2fr, 1fr))[
+#slide(composer: (1fr, 0.75fr, 1.35fr))[
   - Ei Wi-Fiä, ei sovellusta
   - Vain *IR-kaukosäädin*
-  - Tavoite: `climate`-entiteetti
-][
+
+  #v(0.4em)
+  #set text(size: 0.8em)
   #callout(color: cycle.green, title: [Raportoitu toimivaksi])[
     EXP26U339HW \
     EXP26U558CW \
     EXP28U340CW \
     EXP34U338HW
   ]
+][
+  #align(center, image("images/ac.jpg", height: 9cm))
+  #align(center, text(
+    size: 0.55em,
+    fill: cycle.grey,
+  )[Electrolux ChillFlex Pro EXP34U338CW. Kuva: Verkkokauppa.com])
+][
+  #align(center, box(radius: 10pt, clip: true, stroke: 0.6pt + cycle.grey.lighten(40%), image(
+    "images/ha-climate.png",
+    width: 100%,
+  )))
+  #align(center, text(size: 0.8em)[Tavoite: `climate`-entiteetti])
 ]
 
 #speaker-note[Electroluxin siirrettävät ja ikkunamallit. Tavoite: tilat, puhallin, suuntaus ja tavoitelämpötila Home Assistantiin.]
@@ -77,39 +89,6 @@
 ])
 
 #speaker-note[Pitkä aloituspulssi herättää vastaanottimen. Sen jälkeen luetaan bitit taukojen pituudesta: tässä tavu 0, eli 0xC3.]
-
-== Oman integraation rakenne
-
-#slide(composer: (1.7fr, 1fr))[
-  #set text(size: 1.1em)
-  ```text
-  custom_components/electrolux_ac_infrared/
-  ├── __init__.py       käynnistys
-  ├── manifest.json     metatiedot
-  ├── config_flow.py    lähettimen valinta
-  ├── climate.py        entiteetti
-  ├── electrolux_ac.py  protokolla
-  ├── strings.json      tekstit
-  └── brand/            kuvakkeet
-  tests/                pytest
-  pyproject.toml        työkalut
-  hacs.json             HACS
-  ```
-][
-  - \~700 riviä Pythonia
-  - `hassfest` validoi
-]
-
-== Kolme kerrosta, jokaisella yksi tehtävä
-
-#figures.layers
-
-#v(1em)
-
-- Riippuvuudet vain alaspäin
-- Protokolla siirrettävissä `infrared-protocols`-kirjastoon
-
-#speaker-note[Tämä jako on koko suunnitelma. Kaikki Home Assistantiin liittyvä pysyy poissa protokollamoduulista.]
 
 == Protokolla on muutama kymmenen riviä Pythonia
 
@@ -160,28 +139,11 @@
 
 #speaker-note[Tämä on electrolux_ac.py:n koodauspuoli ilman docstringejä, ja vakiot on kirjoitettu auki numeroiksi. Varsinainen työ oli protokollan selvittäminen, ei Home Assistant -koodi.]
 
-== Infrapuna sanelee suunnittelun
+== Tilasta infrapunaksi
 
-#slide(composer: (1fr, 1fr))[
-  #callout(color: cycle.blue, title: [Yksisuuntainen yhteys])[
-    `assumed_state` + `RestoreEntity`
-  ]
-  #v(0.4em)
-  #callout(color: cycle.green, title: [Koko tila joka kehyksessä])[
-    Yksi `_async_apply` kaikille asetuksille
-  ]
-][
-  #callout(color: cycle.purple, title: [Toimi kuin kaukosäädin])[
-    Kuivaus: puhallin pienellä \
-    Puhallintila: ei automaattia
-  ]
-  #v(0.4em)
-  #callout(color: cycle.red, title: [Sammutettuna vain tallennetaan])[
-    Asetukset talteen, ei lähetystä
-  ]
-]
+#figures.state-flow
 
-#speaker-note[Entiteetti näyttää, mitä se viimeksi lähetti. Joka muutos lähettää koko tilan. Kuivaus- ja puhallintilan rajoitukset tulevat kaukosäätimestä. Kun laite on pois päältä, asetukset odottavat seuraavaa käynnistystä.]
+#speaker-note[Yksi napinpainallus alusta loppuun. Entiteetti muistaa, mitä se viimeksi lähetti, koska vastausta ei tule. Joka muutos lähettää koko tilan. Kuivaus- ja puhallintilan rajoitukset tulevat kaukosäätimestä. Kun laite on pois päältä, asetukset odottavat seuraavaa käynnistystä.]
 
 == Testattu ilman laitetta
 
@@ -201,7 +163,6 @@
   - HACS #sym.arrow mukautettu repositorio
   - HA 2026.4+ ja mikä tahansa IR-lähetin
   - Lähetys testattu, vastaanotto ei vielä
-  - Protokolla: Exploding Kitten @explodingkitten2025, sys27 @kyshchenko2025
 
   #v(0.4em)
   #text(size: 0.8em, link("https://github.com/nikosavola/electrolux-ac-infrared"))
@@ -213,7 +174,5 @@
 ]
 
 #speaker-note[Lähetys on testattu localtuya_rc:n kautta oikealla laitteella, vastaanottoa ei vielä.]
-
-#focus-slide[Pidä protokolla erillään, \ mockaa laitteisto, \ anna *CI:n* hoitaa loput.]
 
 #focus-slide[Kiitos! \ Kysymyksiä?]
