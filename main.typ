@@ -10,7 +10,7 @@
   bibliography: bibliography(title: none, "refs.bib"),
   config-info(
     title: [Electrolux-ilmastointilaite \ Home Assistantiin],
-    subtitle: [Python-integraatio, Home Assistantin `infrared`-rakennuspalikka ja mikä tahansa IR-lähetin],
+    subtitle: [Integraatio laitteelle, jota ohjataan vain infrapunalla],
     short-title: [Electrolux Home Assistantiin],
     author: [Niko Savola],
     date: [Home Assistant Community Day, Helsinki, 7.11.2026],
@@ -25,7 +25,7 @@
 
 #slide(composer: (1fr, 0.75fr, 1.35fr))[
   - Ei Wi-Fiä, ei sovellusta
-  - Vain *IR-kaukosäädin*
+  - Vain *IR-lähetin*
 
   #v(0.4em)
   #set text(size: 0.8em)
@@ -49,18 +49,28 @@
   #align(center, text(size: 0.8em)[Tavoite: `climate`-entiteetti])
 ]
 
-#speaker-note[Electroluxin siirrettävät ja ikkunamallit. Tavoite: tilat, puhallin, suuntaus ja tavoitelämpötila Home Assistantiin.]
+#speaker-note[Electroluxin siirrettävät ja ikkunamallit. Tavoite: toimintatilat, puhallin, suuntaus ja tavoitelämpötila Home Assistantiin.]
 
-== Home Assistant 2026.4 toi infrapunan rakennuspalikan
+== Home Assistant 2026.4 toi infrapunarakennuspalikan
 
 #figures.chain
 
 #v(1em)
 
-- IR-lähettimet entiteetteinä
-- Integraatio ei koske laitteistoon
+- Mikä tahansa IR-sovitin käy, koska rakennuspalikka antaa sille yhtenevän rajapinnan
 
-#speaker-note[Tämä teki projektista pienen. Mikä tahansa sovitin, joka tarjoaa infrapunaentiteetin, käy.]
+#speaker-note[Rakennuspalikka teki projektista pienen. Integraatio puhuu aina samalle rajapinnalle, oli sovitin mikä tahansa.]
+
+== Integraatio matkii kaukosäädintä
+
+// TODO: swap in a photo of the real Electrolux remote; this one is a stand-in.
+#align(center, image("images/remote-example.jpg", height: 10cm))
+#align(center, text(
+  size: 0.55em,
+  fill: cycle.grey,
+)[Samantyyppinen kaukosäädin, ei Electroluxin. Kuva: Curpharar, CC BY-SA 4.0, Wikimedia Commons])
+
+#speaker-note[Electroluxin oma kaukosäädin on samaa tyyppiä: LCD-näyttö ja napit tilalle, puhaltimelle ja lämpötilalle. Se on ainoa tapa ohjata laitetta. Seuraavaksi katsotaan, mitä se lähettää.]
 
 == Yksi napinpainallus lähettää koko tilan
 
@@ -76,7 +86,7 @@
   13 tavua, koko tila joka kerta @explodingkitten2025
 ])
 
-#speaker-note[Ainoa protokolladia. Tässä jäähdytys, 24 °C, puhallin automaattisella. Jokainen kehys sisältää kaiken, joten saman kehyksen voi aina lähettää uudelleen.]
+#speaker-note[Tämä on ainoa dia, jossa koko protokolla näkyy kerralla. Tässä jäähdytys, 24 °C, puhallin automaattisella. Jokainen kehys sisältää kaiken, joten saman kehyksen voi aina lähettää uudelleen. Kehykset ja ajoitukset on tarkistettu omalla enkooderilla, ei vain blogin perusteella.]
 
 == Bitit ovat taukojen pituuksia
 
@@ -85,7 +95,7 @@
 #v(0.8em)
 
 #align(center, text(size: 0.85em)[
-  Pulssi 563 µs + tauko: 538 µs = `0`, 1690 µs = `1` @explodingkitten2025
+  Pulssi 563 µs, sitten tauko: 538 µs tarkoittaa bittiä `0` ja 1690 µs bittiä `1` @explodingkitten2025
 ])
 
 #speaker-note[Pitkä aloituspulssi herättää vastaanottimen. Sen jälkeen luetaan bitit taukojen pituudesta: tässä tavu 0, eli 0xC3.]
@@ -132,37 +142,66 @@
   ```
   #v(0.3em)
   #set text(size: 1.05em)
-  #callout(color: cycle.green, title: [Loppu on pohjakoodia])[
-    Config flow, entiteetti, manifesti: avoin tekoälymalli tekee ne lounastauolla.
+  #callout(color: cycle.green, title: [Loppu on boilerplatea])[
+    Asennusikkuna, laitteen entiteetti ja kuvaustiedosto: tekoäly tekee ne hetkessä.
   ]
 ]
 
-#speaker-note[Tämä on electrolux_ac.py:n koodauspuoli ilman docstringejä, ja vakiot on kirjoitettu auki numeroiksi. Varsinainen työ oli protokollan selvittäminen, ei Home Assistant -koodi.]
+#speaker-note[Tämä on electrolux_ac.py:n koodauspuoli ilman docstringejä, ja vakiot on kirjoitettu auki numeroiksi. Varsinainen työ oli selvittää, miten protokolla toimii, ei kirjoittaa Home Assistant -koodia.]
 
-== Tilasta infrapunaksi
+== Boilerplate on lähinnä täytettäviä kenttiä
+
+#slide(align: top, composer: (1fr, 1fr))[
+  #set text(size: 0.78em)
+  *Integraation kuvaus* #text(fill: cycle.grey)[`manifest.json`]
+  ```json
+  {
+    "domain": "electrolux_ac_infrared",
+    "name": "Electrolux AC Infrared",
+    "config_flow": true,
+    "dependencies": ["infrared"],
+    "integration_type": "device",
+    "iot_class": "assumed_state",
+    "requirements": [
+      "infrared-protocols>=8.2.1"
+    ]
+  }
+  ```
+][
+  #set text(size: 0.78em)
+  *Laitteen ominaisuudet* #text(fill: cycle.grey)[`climate.py`]
+  ```python
+  class ElectroluxAcClimate(
+      InfraredEmitterConsumerEntity,
+      ClimateEntity,
+      RestoreEntity,
+  ):
+      _attr_assumed_state = True
+      _attr_hvac_modes = [
+          HVACMode.OFF, HVACMode.COOL, ...
+      ]
+      _attr_fan_modes = [FAN_AUTO, FAN_LOW, ...]
+      _attr_swing_modes = [SWING_OFF, SWING_VERTICAL]
+
+      async def async_set_hvac_mode(self, hvac_mode):
+          await self._async_apply(hvac_mode=hvac_mode)
+  ```
+]
+
+#speaker-note[Lyhennetty mainista. Kuvaustiedosto kertoo Home Assistantille, mikä integraatio on ja mitä se tarvitsee. Entiteetti luettelee, mitä laite osaa, ja ohjaa jokaisen muutoksen samaan lähetysfunktioon.]
+
+== Entiteetti muistaa, mitä se viimeksi lähetti
 
 #figures.state-flow
 
-#speaker-note[Yksi napinpainallus alusta loppuun. Entiteetti muistaa, mitä se viimeksi lähetti, koska vastausta ei tule. Joka muutos lähettää koko tilan. Kuivaus- ja puhallintilan rajoitukset tulevat kaukosäätimestä. Kun laite on pois päältä, asetukset odottavat seuraavaa käynnistystä.]
-
-== Testattu ilman laitetta
-
-#figures.test-flow
-
-#v(1em)
-
-- Valelähetin rakennuspalikan rajapinnassa
-- Oikea `hass` jokaisessa testissä
-- Samat tarkistukset paikallisesti ja CI:ssä
-
-#speaker-note[Tätä suosittelisin kaikille, jotka tekevät laitteistointegraatiota: kaikki toimii läppärillä ilman IR-laitteita.]
+#speaker-note[Yksi napinpainallus alusta loppuun. Vastausta ei tule, joten entiteetti muistaa itse, mitä se viimeksi lähetti. Joka muutos lähettää koko tilan. Kuivaus- ja puhallintilan rajoitukset tulevat kaukosäätimestä. Kun laite on pois päältä, tila odottaa seuraavaa käynnistystä.]
 
 == Kokeile
 
 #slide(composer: (1.4fr, 1fr))[
-  - HACS #sym.arrow mukautettu repositorio
+  - Asenna HACSilla suoraan GitHubista
+    - tai HA 2026.11:stä lähtien marketplacesta
   - HA 2026.4+ ja mikä tahansa IR-lähetin
-  - Lähetys testattu, vastaanotto ei vielä
 
   #v(0.4em)
   #text(size: 0.8em, link("https://github.com/nikosavola/electrolux-ac-infrared"))
@@ -173,6 +212,6 @@
   ))
 ]
 
-#speaker-note[Lähetys on testattu localtuya_rc:n kautta oikealla laitteella, vastaanottoa ei vielä.]
+#speaker-note[Käytössä oikealla laitteella localtuya_rc:n kautta. Jos kysytään: vastaanottoa ei vielä ole.]
 
 #focus-slide[Kiitos! \ Kysymyksiä?]

@@ -183,7 +183,7 @@
     key(cycle.grey, [otsake]),
     key(cycle.red, [suuntaus + lämpötila]),
     key(cycle.green, [puhallin]),
-    key(cycle.purple, [tila]),
+    key(cycle.purple, [toimintatila]),
     key(cycle.yellow, [virta: `04` päällä, `00` pois]),
     key(cycle.blue, [tarkistussumma]),
   ).join(h(1.2em))))
@@ -199,10 +199,17 @@
     text(size: 0.72em, fill: if hl { white } else { ink }, body),
   )
   let arrow = text(fill: muted, sym.arrow.l.r)
+  let tag(color, body) = box(
+    width: 100%,
+    inset: (top: 0.5em),
+    stroke: (top: 2.5pt + color),
+    text(size: 0.62em, fill: color.darken(30%), body),
+  )
   set align(center + horizon)
   grid(
     columns: 9,
     column-gutter: 0.4em,
+    row-gutter: 0.5em,
     node[Kojelaudat, \ automaatiot],
     arrow,
     node(hl: true)[#text(weight: "bold")[Electrolux AC Infrared] \ climate-entiteetti],
@@ -212,6 +219,14 @@
     node[Infrapunasovitin \ ESPHome, SLZB, \ Broadlink, LocalTuya],
     text(size: 1.6em, fill: cycle.red, sym.arrow.r.squiggly),
     node[Electrolux-\ ilmastointilaite],
+    [],
+    [],
+    tag(cycle.green, text(weight: "bold")[Tämä on integraatio]),
+    [],
+    tag(cycle.blue)[Integraatio vain kutsuu tätä],
+    [],
+    tag(cycle.grey)[Valmis sovitin, ei muutoksia],
+    grid.cell(colspan: 2, tag(cycle.red, text(weight: "bold")[Käytännössä integraatio ohjaa tätä])),
   )
 }
 
@@ -246,7 +261,7 @@
     [Climate-entiteetti],
     "climate.py",
     cycle.blue,
-    [Tilat, oikut, oletettu tila],
+    [Toimintatilat, oikut, oletettu tila],
   ),
   _layer(
     [Protokolla],
@@ -324,7 +339,7 @@
         [`ElectroluxAcCommand` #sym.arrow.r 13 tavua],
         cycle.green,
         [
-          Koko tila joka kehyksessä, joten yksi `_async_apply` kaikille asetuksille
+          Koko tila joka kehyksessä
         ],
       ),
       down,
@@ -332,7 +347,7 @@
         563 µs pulssi, tauon pituus kertoo bitin
       ]),
       down,
-      step([`infrared`], "HA core", [lähettää emitter-entiteetin kautta], cycle.grey, [
+      step([`infrared`], "HA core", [lähettää `emitter`-entiteetin kautta], cycle.grey, [
         Integraatio ei tiedä, mikä laite lähettää
       ]),
     ),
