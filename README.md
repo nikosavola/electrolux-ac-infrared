@@ -45,7 +45,7 @@ what's available.
 
 ## Requirements
 
-- Home Assistant 2026.4 or newer
+- Home Assistant 2026.8 or newer
 - At least one `infrared` emitter entity, provided by an adapter integration such as
   ESPHome
 - Optionally an `infrared` receiver entity, so Home Assistant follows along when the
@@ -53,12 +53,14 @@ what's available.
 
 ## Installation
 
-### HACS
+### HACS or Marketplace
 
 [![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=nikosavola&repository=electrolux-ac-infrared&category=integration)
 
 1. Add this repository to HACS as a custom repository of type *Integration* (the
    badge above does this for you), then download **Electrolux AC Infrared** from HACS.
+   On Home Assistant 2026.11 and newer, HACS is replaced by the built-in Marketplace.
+   Use *Add from link* there with this repository's URL.
 1. Restart Home Assistant.
 
 ### Manual
