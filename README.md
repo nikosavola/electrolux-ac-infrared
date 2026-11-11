@@ -56,6 +56,7 @@ what's available.
 ### HACS or Marketplace
 
 [![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=nikosavola&repository=electrolux-ac-infrared&category=integration)
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fnikosavola%2Felectrolux-ac-infrared.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fnikosavola%2Felectrolux-ac-infrared?ref=badge_shield)
 
 1. Search for **Electrolux AC Infrared** in HACS, or in the built-in Marketplace on Home
    Assistant 2026.11 and newer, and download it.
@@ -270,3 +271,7 @@ The protocol implemented here comes from
 and the [`esphome-electrolux-ac`](https://github.com/sys27/esphome-electrolux-ac)
 ESPHome component by [@sys27](https://github.com/sys27), including the device quirks
 above. This integration is licensed GPL-3.0 to match that component.
+
+
+## License
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fnikosavola%2Felectrolux-ac-infrared.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fnikosavola%2Felectrolux-ac-infrared?ref=badge_large)
